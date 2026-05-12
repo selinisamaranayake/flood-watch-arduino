@@ -43,17 +43,29 @@
   </div>
 </div>
 
-<div class="section">
+<div class="section" id="sensorChartSection">
   <h2>Sensor Data Chart</h2>
-  <div class="file-upload">
-    <label for="fileInput">Upload sensor data (.xlsx):</label><br>
-    <input id="fileInput" type="file" accept=".xlsx">
+  <div id="serialUnsupported" class="serial-unsupported hidden" role="status">
+    Web Serial is not available in this browser. Use <strong>Chrome</strong> or <strong>Edge</strong> on desktop for live Arduino connection.
   </div>
-  <p id="statusMessage" class="status-msg">No file loaded yet.</p>
+  <p class="serial-reminder note"><strong>Note:</strong> Close the Arduino IDE Serial Monitor before connecting — only one program can use the USB serial port at a time.</p>
+  <div class="serial-controls">
+    <button type="button" id="btnSerialConnect">Connect to Arduino</button>
+    <button type="button" id="btnSerialDisconnect" disabled>Disconnect</button>
+    <button type="button" id="btnSerialClear">Clear Chart</button>
+    <span class="baud-hint">Baud rate: 9600 (edit <code>BAUD_RATE</code> in <code>app.js</code>)</span>
+  </div>
+  <div class="serial-stats">
+    <div class="serial-stat"><span class="serial-stat-label">Connection</span> <strong id="serialConnStatus">Disconnected</strong></div>
+    <div class="serial-stat"><span class="serial-stat-label">Latest value</span> <strong id="serialLatestValue">—</strong></div>
+    <div class="serial-stat"><span class="serial-stat-label">Values received</span> <strong id="serialSampleCount">0</strong></div>
+    <div class="serial-stat"><span class="serial-stat-label">Invalid lines ignored</span> <strong id="serialInvalidCount">0</strong></div>
+  </div>
+  <p id="serialErrorLine" class="status-msg error hidden" aria-live="polite"></p>
   <div class="chart-container">
     <canvas id="sensorChart"></canvas>
   </div>
-  <p class="note">integrated from Selini's chart viewer.</p>
+  <p class="note">Live chart via Web Serial (USB). One numeric value per line from the Arduino.</p>
 </div>
 
 <div class="row">
@@ -105,7 +117,6 @@
   <p class="note">volunteer-based network. each node responsible for relaying alerts in local language.</p>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <script src="./app.js"></script>
 </body>
